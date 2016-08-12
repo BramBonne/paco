@@ -68,6 +68,7 @@ public class BroadcastTriggerService extends Service {
 
   protected synchronized void propagateToExperimentsThatCare(Bundle extras) {
 
+    // TODO: add triggerEvent to extras bundle before passing it on
     final int triggerEvent = extras.getInt(Experiment.TRIGGER_EVENT);
     final String sourceIdentifier = extras.getString(Experiment.TRIGGER_SOURCE_IDENTIFIER);
     final String timeStr = extras.getString(Experiment.TRIGGERED_TIME);
@@ -130,6 +131,7 @@ public class BroadcastTriggerService extends Service {
                                                                 sourceIdentifier, timeExperiment);
               Log.i(PacoConstants.TAG, "created a notification");
             } else if (pacoAction.getActionCode() == PacoAction.EXECUTE_SCRIPT_ACTION_CODE) {
+              // TODO: pass bundle along to custom rendered forms too
               Bundle payload = extras.getBundle(BroadcastTriggerReceiver.PACO_ACTION_PAYLOAD);
               AndroidActionExecutor.runAction(getApplicationContext(), pacoAction, experiment,
                                               experiment.getExperimentDAO(), group, actionTriggerSpecId, actionTrigger.getId(), payload);
