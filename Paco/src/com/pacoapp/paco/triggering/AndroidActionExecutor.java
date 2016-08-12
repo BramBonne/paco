@@ -11,6 +11,7 @@ import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.common.collect.Lists;
@@ -65,13 +66,13 @@ public class AndroidActionExecutor {
       List<PacoAction> actions = actionTrigger.getActions();
       Experiment experiment = experimentDAOtoExperimentMap.get(timeExperiment.experiment);
       for (PacoAction pacoAction : actions) {
-        runAction(context, pacoAction, experiment, timeExperiment.experiment, timeExperiment.experimentGroup, timeExperiment.actionTriggerSpecId, timeExperiment.actionTrigger.getId());
+        runAction(context, pacoAction, experiment, timeExperiment.experiment, timeExperiment.experimentGroup, timeExperiment.actionTriggerSpecId, timeExperiment.actionTrigger.getId(), null);
       }
   }
 
 }
 
-  public static void runAction(Context context, PacoAction pacoAction, Experiment experiment, ExperimentDAO experimentDAO, ExperimentGroup experimentGroup, Long actionTriggerSpecId, Long actionTriggerId) {
+  public static void runAction(Context context, PacoAction pacoAction, Experiment experiment, ExperimentDAO experimentDAO, ExperimentGroup experimentGroup, Long actionTriggerSpecId, Long actionTriggerId, Bundle payload) {
     int actionCode = pacoAction.getActionCode();
     switch (actionCode) {
     case PacoAction.NOTIFICATION_ACTION_CODE:
@@ -85,7 +86,8 @@ public class AndroidActionExecutor {
                                                                                 experimentGroup,
                                                                                 actionTriggerSpecId,
                                                                                 actionTriggerId,
-                                                                                pacoAction.getId());
+                                                                                pacoAction.getId(),
+                                                                                payload);
       String customScript = ((PacoActionAllOthers) pacoAction).getCustomScript();
       if (customScript != null) {
         // TODO - Either sanitize the code here, or, when it is uploaded to the

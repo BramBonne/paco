@@ -7,10 +7,12 @@ import java.io.InputStream;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.google.common.base.Strings;
 import com.pacoapp.paco.PacoConstants;
+import com.pacoapp.paco.js.bridge.JavascriptBundle;
 import com.pacoapp.paco.js.bridge.JavascriptCalendarManager;
 import com.pacoapp.paco.js.bridge.JavascriptEventLoader;
 import com.pacoapp.paco.js.bridge.JavascriptExperimentLoader;
@@ -32,7 +34,7 @@ public class AndroidJsInterpreterBuilder {
 
   }
 
-  public static JsInterpreter createInterpreter(Context context, Experiment androidExperiment, ExperimentDAO experiment, ExperimentGroup experimentGroup, Long actionTriggerSpecId, Long actionTriggerId, Long actionId) {
+  public static JsInterpreter createInterpreter(Context context, Experiment androidExperiment, ExperimentDAO experiment, ExperimentGroup experimentGroup, Long actionTriggerSpecId, Long actionTriggerId, Long actionId, Bundle extras) {
     JsInterpreter interpreter = new JsInterpreter();
     ExperimentProviderUtil experimentProvider = new ExperimentProviderUtil(context);
     bindLibraries(context, interpreter);
@@ -46,6 +48,7 @@ public class AndroidJsInterpreterBuilder {
     interpreter.newBind("strings", new JavascriptStringResources(context));
     interpreter.newBind("calendar", new JavascriptCalendarManager(context));
     interpreter.newBind("locationService", new JavascriptLocationManager(context));
+    interpreter.newBind("extras", new JavascriptBundle(extras));
     return interpreter;
 
   }

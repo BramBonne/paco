@@ -130,8 +130,9 @@ public class BroadcastTriggerService extends Service {
                                                                 sourceIdentifier, timeExperiment);
               Log.i(PacoConstants.TAG, "created a notification");
             } else if (pacoAction.getActionCode() == PacoAction.EXECUTE_SCRIPT_ACTION_CODE) {
+              Bundle payload = extras.getBundle(BroadcastTriggerReceiver.PACO_ACTION_PAYLOAD);
               AndroidActionExecutor.runAction(getApplicationContext(), pacoAction, experiment,
-                                              experiment.getExperimentDAO(), group, actionTriggerSpecId, actionTrigger.getId());
+                                              experiment.getExperimentDAO(), group, actionTriggerSpecId, actionTrigger.getId(), payload);
             }
           }
         }
